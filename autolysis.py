@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import openai
 
 # Set up the AI Proxy
-openai.api_base = "https://aiproxy.sanand.workers.dev/openai/v1"
+openai.api_base = "http://aiproxy.sanand.workers.dev/openai/v1/chat/completions"
 openai.api_key = os.environ["AIPROXY_TOKEN"]  # Set this environment variable before running
 
 def analyze_csv(file_path):
