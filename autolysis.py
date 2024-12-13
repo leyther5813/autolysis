@@ -98,21 +98,53 @@ def generate_readme(summary, correlation_matrix, narratives, visualizations, out
     """
     readme_path = os.path.join(output_dir, "README.md")
     with open(readme_path, "w") as f:
+        # Add header for the file
         f.write("# Dataset Analysis\n")
+        f.write("This README provides an analysis of the dataset provided along with key insights, recommendations, and visualizations.\n\n")
+        
+        # Summary Section
         f.write("## Summary\n")
-        f.write(f"Shape: {summary['shape']}\n\n")
+        f.write(f"Shape of dataset: {summary['shape']}\n\n")
+        f.write("### Columns in the dataset\n")
+        f.write(f"{', '.join(summary['columns'])}\n\n")
+        
+        # Missing Values Section
         f.write("### Missing Values\n")
-        f.write(f"{summary['missing_values']}\n\n")
+        f.write("Below is the count of missing values per column:\n")
+        for column, missing in summary['missing_values'].items():
+            f.write(f"- {column}: {missing} missing values\n")
+        f.write("\n")
+        
+        # Summary Statistics Section
         f.write("### Summary Statistics\n")
-        f.write(f"{summary['summary_statistics']}\n\n")
+        f.write("Here are the summary statistics for numeric columns:\n")
+        for column, stats in summary['summary_statistics'].items():
+            f.write(f"- {column}: {stats}\n")
+        f.write("\n")
+        
+        # Correlation Matrix Section (if exists)
         if correlation_matrix:
             f.write("## Correlation Matrix\n")
-            f.write(f"{correlation_matrix}\n\n")
+            f.write("This section shows the correlations between numeric variables in the dataset:\n")
+            for column, correlations in correlation_matrix.items():
+                f.write(f"- {column}:\n")
+                for other_column, value in correlations.items():
+                    f.write(f"  - {other_column}: {value}\n")
+            f.write("\n")
+        
+        # AI-generated Narrative Section
         f.write("## Narrative\n")
         f.write(f"{narratives}\n\n")
+
+        # Visualizations Section
         f.write("## Visualizations\n")
+        f.write("Below are the generated visualizations that help in understanding the relationships in the data:\n")
         for vis in visualizations:
             f.write(f"![{vis}]({vis})\n")
+        f.write("\n")
+        
+    print(f"README file generated at: {readme_path}")
+
 
 def main():
     """
